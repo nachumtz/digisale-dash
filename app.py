@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from data_loader import load_and_validate, merge_data, calculate_kpis
+from charts import chart_revenue_by_category, chart_revenue_by_segment
 
 def main():
     st.set_page_config(
@@ -78,6 +79,18 @@ def main():
                 st.metric("אחוז ביטולים", f"{kpis['cancellation_rate']:.1f}%")
                 
             st.divider()
+            
+            # Display Charts
+            st.subheader("ניתוח מגמות")
+            chart_col1, chart_col2 = st.columns(2)
+            
+            with chart_col1:
+                fig_cat = chart_revenue_by_category(merged_df)
+                st.plotly_chart(fig_cat, use_container_width=True)
+                
+            with chart_col2:
+                fig_seg = chart_revenue_by_segment(merged_df)
+                st.plotly_chart(fig_seg, use_container_width=True)
                 
         except Exception as e:
             st.error(f"שגיאה בעיבוד הנתונים: {str(e)}")

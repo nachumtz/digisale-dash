@@ -8,7 +8,7 @@
 | Milestone | סטטוס |
 |---|---|
 | M1: Foundation & Data Layer | ✅ הושלם |
-| M2: Dashboard Core | ⬜ לא התחיל |
+| M2: Dashboard Core | ✅ הושלם |
 | M3: Error Handling & Polish | ⬜ לא התחיל |
 | M4: Testing & Handoff | ⬜ לא התחיל |
 
@@ -29,7 +29,7 @@
 
 - [x] **Phase 2.1** — מסך ראשי Streamlit + העלאת קבצים (File Uploader)
 - [x] **Phase 2.2** — הצגת 4 KPIs באמצעות `st.metric`
-- [ ] **Phase 2.3** — 2 גרפי Plotly (קטגוריה + סגמנט לקוחות)
+- [x] **Phase 2.3** — 2 גרפי Plotly (קטגוריה + סגמנט לקוחות)
 
 > 💡 *Phase 2.2 ו-2.3 תלויים ב-2.1 — יש לבצע בסדר.*
 
