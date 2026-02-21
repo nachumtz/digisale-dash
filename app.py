@@ -24,9 +24,29 @@ def main():
         try:
             with st.spinner("מעבד נתונים..."):
                 # Load and validate
-                orders_df = load_and_validate(orders_file, ["Order_ID", "Customer_ID", "Product_ID", "Order_Date", "Quantity", "Status"])
-                customers_df = load_and_validate(customers_file, ["Customer_ID", "Customer_Segment", "City"])
-                products_df = load_and_validate(products_file, ["Product_ID", "Category", "Unit_Price", "Cost_Price"])
+                # Note: some CSVs have BOM, so we try to catch the first column if it's garbled, but pandas read_csv usually handles it.
+                # However, looking at the error: ['Order_ID', 'Product_ID', 'Order_Date', 'Quantity', 'Status'] are ALL missing?
+                # This suggests the DataFrame wasn't loaded correctly, maybe because of delimiter or upload type.
+                # Let's read them into local DFs first
+                orders_df = pd.read_csv(orders_file) if orders_file.name.endswith('.csv') else pd.read_excel(orders_file)
+                customers_df = pd.read_csv(customers_file) if customers_file.name.endswith('.csv') else pd.read_excel(customers_file)
+                products_df = pd.read_csv(products_file) if products_file.name.endswith('.csv') else pd.read_excel(products_file)
+
+                # Now validate
+                orders_cols = ["Order_ID", "Customer_ID", "Product_ID", "Order_Date", "Quantity", "Status"]
+                missing_orders = [c for c in orders_cols if c not in orders_df.columns]
+                if missing_orders:
+                    raise ValueError(f"Missing expected columns in Orders: {missing_orders}. Found: {orders_df.columns.tolist()}")
+                    
+                customers_cols = ["Customer_ID", "Customer_Segment", "City"]
+                missing_customers = [c for c in customers_cols if c not in customers_df.columns]
+                if missing_customers:
+                    raise ValueError(f"Missing expected columns in Customers: {missing_customers}. Found: {customers_df.columns.tolist()}")
+                    
+                products_cols = ["Product_ID", "Category", "Unit_Price", "Cost_Price"]
+                missing_products = [c for c in products_cols if c not in products_df.columns]
+                if missing_products:
+                    raise ValueError(f"Missing expected columns in Products: {missing_products}. Found: {products_df.columns.tolist()}")
                 
                 # Merge data
                 merged_df = merge_data(orders_df, customers_df, products_df)
@@ -43,6 +63,21 @@ def main():
             # Temporary view to verify the loaded data
             with st.expander("הצג תצוגה מקדימה של הנתונים"):
                 st.dataframe(merged_df.head(10))
+                
+            # Display KPIs
+            st.subheader("מדדים מרכזיים")
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("סה״כ פדיון", f"₪{kpis['total_revenue']:,.0f}")
+            with col2:
+                st.metric("סה״כ רווח", f"₪{kpis['total_profit']:,.0f}")
+            with col3:
+                st.metric("הזמנות שהושלמו", f"{kpis['completed_orders']:,}")
+            with col4:
+                st.metric("אחוז ביטולים", f"{kpis['cancellation_rate']:.1f}%")
+                
+            st.divider()
                 
         except Exception as e:
             st.error(f"שגיאה בעיבוד הנתונים: {str(e)}")
