@@ -26,11 +26,17 @@ def load_and_validate(file, expected_columns):
 
         missing_cols = [col for col in expected_columns if col not in df.columns]
         if missing_cols:
-            raise ValueError(f"Missing expected columns: {missing_cols}")
+            raise KeyError(f"חסרות עמודות מסוג: {missing_cols}")
             
         return df
+    except KeyError as e:
+        raise Exception(f"שגיאת עמודות חסרות: {str(e)}")
+    except ValueError as e:
+        raise Exception(f"שגיאת פורמט קובץ: {str(e)}")
+    except pd.errors.ParserError as e:
+        raise Exception(f"הקובץ פגום או לא ניתן לקריאה: {str(e)}")
     except Exception as e:
-        raise Exception(f"Error loading file: {str(e)}")
+        raise Exception(f"שגיאה כללית בטעינת הקובץ: {str(e)}")
 
 def merge_data(orders_df, customers_df, products_df):
     """

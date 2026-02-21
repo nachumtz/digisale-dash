@@ -39,7 +39,7 @@
 
 > **מטרה:** חסינות לשגיאות + עיצוב Dark/Corporate סופי.
 
-- [ ] **Phase 3.1** — טיפול בשגיאות + כתיבה ל-`error_log.md`
+- [x] **Phase 3.1** — טיפול בשגיאות + כתיבה ל-`error_log.md`
 - [ ] **Phase 3.2** — Custom CSS / עיצוב Dark Corporate + UX Refinement
 
 ---

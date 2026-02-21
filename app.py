@@ -93,6 +93,8 @@ def main():
                 st.plotly_chart(fig_seg, use_container_width=True)
                 
         except Exception as e:
+            from error_logger import log_error
+            log_error("Data Processing", e)
             st.error(f"שגיאה בעיבוד הנתונים: {str(e)}")
             # Remove from session state if error
             if "merged_df" in st.session_state:
