@@ -9,29 +9,12 @@
 |---|---|
 | M1: Foundation & Data Layer | ✅ הושלם |
 | M2: Dashboard Core | ✅ הושלם |
-| M3: Error Handling & Polish | ⬜ לא התחיל |
+| M3: Error Handling & Polish | ✅ הושלם |
 | M4: Testing & Handoff | ⬜ לא התחיל |
 
 ---
 
-## Milestone 1: Foundation & Data Layer
-
-> **מטרה:** הכנת תשתית הפרויקט ומנוע עיבוד הנתונים — לפני כל UI.
-
-- [x] **Phase 1.1** — הקמת הפרויקט (venv, requirements, מבנה תיקיות)
-- [x] **Phase 1.2** — מודול טעינת נתונים + Merge + Validation + חישוב KPI
-
----
-
-## Milestone 2: Dashboard Core
-
-> **מטרה:** בניית ממשק Streamlit עם כל הפונקציונליות הבסיסית.
-
-- [x] **Phase 2.1** — מסך ראשי Streamlit + העלאת קבצים (File Uploader)
-- [x] **Phase 2.2** — הצגת 4 KPIs באמצעות `st.metric`
-- [x] **Phase 2.3** — 2 גרפי Plotly (קטגוריה + סגמנט לקוחות)
-
-> 💡 *Phase 2.2 ו-2.3 תלויים ב-2.1 — יש לבצע בסדר.*
+... (snip, no need to touch middle)
 
 ---
 
@@ -40,7 +23,7 @@
 > **מטרה:** חסינות לשגיאות + עיצוב Dark/Corporate סופי.
 
 - [x] **Phase 3.1** — טיפול בשגיאות + כתיבה ל-`error_log.md`
-- [ ] **Phase 3.2** — Custom CSS / עיצוב Dark Corporate + UX Refinement
+- [x] **Phase 3.2** — Custom CSS / עיצוב Dark Corporate + UX Refinement
 
 ---
 

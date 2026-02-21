@@ -6,19 +6,55 @@ from charts import chart_revenue_by_category, chart_revenue_by_segment
 
 def main():
     st.set_page_config(
-        page_title="Digisale-Dash",
-        page_icon="🤖",
+        page_title="Digisale-Dash | דשבורד מכירות",
+        page_icon="📊",
         layout="wide",
         initial_sidebar_state="expanded"
     )
 
-    st.title("Digisale Dashboard")
+    # Custom CSS for Dark Corporate Look
+    st.markdown("""
+        <style>
+        /* Main Header Styling */
+        .main-header {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            border-bottom: 2px solid #0068c9;
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        .sub-header {
+            font-size: 1.2rem;
+            color: #a0aab5;
+            margin-bottom: 30px;
+        }
+        /* KPI Cards Styling */
+        div[data-testid="stMetric"] {
+            background-color: #1e2129;
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+        }
+        div[data-testid="stMetricValue"] {
+            color: #00cca4;
+            font-size: 2rem;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="main-header">📊 Digisale-Dash | דשבורד מכירות</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">ניתוח ביצועים עסקיים בזמן אמת</div>', unsafe_allow_html=True)
     
     # Sidebar: File Uploaders
-    st.sidebar.header("העלאת נתונים 📂")
-    orders_file = st.sidebar.file_uploader("העלה קובץ הזמנות (Orders)", type=["csv", "xlsx"])
-    customers_file = st.sidebar.file_uploader("העלה קובץ לקוחות (Customers)", type=["csv", "xlsx"])
-    products_file = st.sidebar.file_uploader("העלה קובץ מוצרים (Products)", type=["csv", "xlsx"])
+    st.sidebar.markdown("### 📁 מסוף ניהול נתונים")
+    st.sidebar.caption("אנא העלה את 3 קבצי המקור המבוקשים בפורמט CSV או Excel כדי לצפות בדשבורד.")
+    st.sidebar.divider()
+    
+    orders_file = st.sidebar.file_uploader("1. קובץ הזמנות (Orders)", type=["csv", "xlsx"])
+    customers_file = st.sidebar.file_uploader("2. קובץ לקוחות (Customers)", type=["csv", "xlsx"])
+    products_file = st.sidebar.file_uploader("3. קובץ מוצרים (Products)", type=["csv", "xlsx"])
 
     # Check if all files are uploaded
     if orders_file and customers_file and products_file:
@@ -52,7 +88,7 @@ def main():
                 # Merge data
                 merged_df = merge_data(orders_df, customers_df, products_df)
                 
-                # Calculate KPIs to make sure the data is structured correctly even if we don't display them yet
+                # Calculate KPIs initially
                 kpis = calculate_kpis(merged_df)
                 
                 # Save to session state
@@ -61,35 +97,52 @@ def main():
                 
             st.success("הנתונים נטענו בהצלחה ✅")
             
+            # --- ADDING CITY FILTER ---
+            st.sidebar.divider()
+            st.sidebar.markdown("### 🔍 סינון נתונים")
+            # Get unique cities, sort them, and add an "All Cities" option
+            cities = sorted(merged_df['City'].dropna().unique().tolist())
+            cities.insert(0, 'כל הערים')
+            
+            selected_city = st.sidebar.selectbox("בחר עיר להצגה:", cities)
+            
+            # Filter the dataframe if a specific city is selected
+            display_df = merged_df.copy()
+            if selected_city != 'כל הערים':
+                display_df = display_df[display_df['City'] == selected_city]
+            
+            # Recalculate KPIs based on filtered data
+            display_kpis = calculate_kpis(display_df)
+            
             # Temporary view to verify the loaded data
             with st.expander("הצג תצוגה מקדימה של הנתונים"):
-                st.dataframe(merged_df.head(10))
+                st.dataframe(display_df.head(10))
                 
             # Display KPIs
-            st.subheader("מדדים מרכזיים")
+            st.subheader(f"מדדים מרכזיים - {selected_city}")
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                st.metric("סה״כ פדיון", f"₪{kpis['total_revenue']:,.0f}")
+                st.metric("סה״כ פדיון", f"₪{display_kpis['total_revenue']:,.0f}")
             with col2:
-                st.metric("סה״כ רווח", f"₪{kpis['total_profit']:,.0f}")
+                st.metric("סה״כ רווח", f"₪{display_kpis['total_profit']:,.0f}")
             with col3:
-                st.metric("הזמנות שהושלמו", f"{kpis['completed_orders']:,}")
+                st.metric("הזמנות שהושלמו", f"{display_kpis['completed_orders']:,}")
             with col4:
-                st.metric("אחוז ביטולים", f"{kpis['cancellation_rate']:.1f}%")
+                st.metric("אחוז ביטולים", f"{display_kpis['cancellation_rate']:.1f}%")
                 
             st.divider()
             
             # Display Charts
-            st.subheader("ניתוח מגמות")
+            st.subheader(f"ניתוח מגמות - {selected_city}")
             chart_col1, chart_col2 = st.columns(2)
             
             with chart_col1:
-                fig_cat = chart_revenue_by_category(merged_df)
+                fig_cat = chart_revenue_by_category(display_df)
                 st.plotly_chart(fig_cat, use_container_width=True)
                 
             with chart_col2:
-                fig_seg = chart_revenue_by_segment(merged_df)
+                fig_seg = chart_revenue_by_segment(display_df)
                 st.plotly_chart(fig_seg, use_container_width=True)
                 
         except Exception as e:
