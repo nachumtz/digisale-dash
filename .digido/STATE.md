@@ -7,9 +7,9 @@
 
 | שדה | ערך |
 |---|---|
-| **שלב** | Planning Complete |
-| **Phase הבאה** | Phase 1.2 |
-| **פקודה הבאה** | `/execute 1` |
+| **שלב** | Milestone 2 in progress |
+| **Phase הבאה** | Phase 2.2 |
+| **פקודה הבאה** | `/execute 2.2` |
 | **חוסמים** | אין |
 
 ---
@@ -17,11 +17,12 @@
 ## הקשר פעיל
 
 - **SPEC.md** — מאושר ✅
-- **ROADMAP.md** — נוצר ✅
+- **ROADMAP.md** — מעודכן ✅
 - **PLAN files** — 9 קבצים מוכנים ✅
+- **Milestone 1** — הושלם ✅
 
 ---
 
 ## הצעד הבא
 
-הרצו `/execute 1` כדי להתחיל ב-**Phase 1.2** (מודול טעינת נתונים + Merge + Validation + חישוב KPI).
+הרצו `/execute 2.2` כדי להתחיל ב-**Phase 2.2** (הצגת 4 KPIs באמצעות מנגנוני `st.metric`).

@@ -7,7 +7,7 @@
 
 | Milestone | סטטוס |
 |---|---|
-| M1: Foundation & Data Layer | ⬜ לא התחיל |
+| M1: Foundation & Data Layer | ✅ הושלם |
 | M2: Dashboard Core | ⬜ לא התחיל |
 | M3: Error Handling & Polish | ⬜ לא התחיל |
 | M4: Testing & Handoff | ⬜ לא התחיל |
@@ -19,7 +19,7 @@
 > **מטרה:** הכנת תשתית הפרויקט ומנוע עיבוד הנתונים — לפני כל UI.
 
 - [x] **Phase 1.1** — הקמת הפרויקט (venv, requirements, מבנה תיקיות)
-- [ ] **Phase 1.2** — מודול טעינת נתונים + Merge + Validation + חישוב KPI
+- [x] **Phase 1.2** — מודול טעינת נתונים + Merge + Validation + חישוב KPI
 
 ---
 
@@ -27,7 +27,7 @@
 
 > **מטרה:** בניית ממשק Streamlit עם כל הפונקציונליות הבסיסית.
 
-- [ ] **Phase 2.1** — מסך ראשי Streamlit + העלאת קבצים (File Uploader)
+- [x] **Phase 2.1** — מסך ראשי Streamlit + העלאת קבצים (File Uploader)
 - [ ] **Phase 2.2** — הצגת 4 KPIs באמצעות `st.metric`
 - [ ] **Phase 2.3** — 2 גרפי Plotly (קטגוריה + סגמנט לקוחות)
 

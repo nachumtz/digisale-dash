@@ -1,0 +1,3 @@
+﻿Order_ID,Order_Date,Customer_ID,Product_ID,Quantity,Discount,Payment_Method,Channel,Status
+1001,6/12/2025,C191,P023,3,0.05,PayPal,אתר,הושלם
+1002,12/19/2024,C097,P020,6,0,PayPal,אתר,בוטל
