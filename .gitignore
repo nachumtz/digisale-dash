@@ -6,3 +6,8 @@ __pycache__/
 *.csv
 .env
 .streamlit/secrets.toml
+
+# React / Node
+node_modules/
+dist/
+*.local
